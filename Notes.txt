@@ -1,0 +1,6 @@
+Add support for @Mentions
+Add status details
+Need StatusProvider that supports @Mentions. What is the right way to implement such provider? Contacts or Settings as example?
+Fix callback form twitter auth back to the app.
+Refresh should update the list
+Need Prefs. Should allow for background data, larger font. Make prefs a fragment.

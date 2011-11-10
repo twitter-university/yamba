@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:versionCode="1"
+  android:versionName="1.0"
+  package="com.marakana.yamba">
+  <uses-sdk
+    android:minSdkVersion="11"
+    android:targetSdkVersion="11" />
+  <uses-permission android:name="android.permission.INTERNET" />
+
+  <application
+    android:name="YambaApp"
+    android:icon="@drawable/icon"
+    android:label="@string/app_name"
+    android:hardwareAccelerated="true"
+    android:debuggable="true">
+
+    <activity
+      android:name=".MainActivity"
+      android:label="@string/app_name"
+      android:launchMode="singleTop">
+      <!-- Used for Launcher as main entry point -->
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+      <!-- Used for OAuth callback -->
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data
+          android:scheme="x-marakana-yamba-oauth-twitter"
+          android:host="callback" />
+      </intent-filter>
+    </activity>
+
+
+    <service android:name="UpdaterService" />
+
+    <provider
+      android:name="StatusProvider"
+      android:authorities="com.marakana.yamba.statusprovider" />
+
+  </application>
+</manifest>

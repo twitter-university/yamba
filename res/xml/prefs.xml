@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+  <CheckBoxPreference
+    android:title="@string/background_data"
+    android:key="background_data"
+    android:summary="@string/background_data_summary"></CheckBoxPreference>
+  <ListPreference
+    android:key="text_size"
+    android:entries="@array/text_size_entries"
+    android:entryValues="@array/text_size_values"
+    android:title="@string/text_size"></ListPreference>
+</PreferenceScreen>
