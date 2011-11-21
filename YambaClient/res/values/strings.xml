@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+    <string name="app_name">Yamba!</string>
+    <string name="status_update">Status Update</string>
+    <string name="update">Update</string>
+    <string name="hint">Enter your status...</string>
+    <string name="start_service">Start Service</string>
+    <string name="stop_service">Stop Service</string>
+</resources>

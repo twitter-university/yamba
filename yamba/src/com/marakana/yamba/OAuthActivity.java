@@ -1,5 +1,6 @@
 package com.marakana.yamba;
 
+import oauth.signpost.OAuth;
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;
 import oauth.signpost.basic.DefaultOAuthProvider;
@@ -10,24 +11,21 @@ import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.exception.OAuthNotAuthorizedException;
 import winterwell.jtwitter.OAuthSignpostClient;
 import winterwell.jtwitter.Twitter;
-import android.app.Fragment;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class OAuthFragment extends Fragment {
-	static final String TAG = "OAuthFragment";
+public class OAuthActivity extends Activity {
+	static final String TAG = "OAuthActivity";
 	static final String OAUTH_KEY = "1csHpu9jAh9XB41E210A";
 	static final String OAUTH_SECRET = "7QuUrV43ULb4Pevtaly9RJqNKU6khLQpdtWGmT8c";
 	static final String OAUTH_CALLBACK_SCHEME = "x-marakana-yamba-oauth-twitter";
@@ -35,7 +33,6 @@ public class OAuthFragment extends Fragment {
 			+ "://callback";
 
 	YambaApp yamba;
-	private View layout;
 	private String username;
 	private OAuthSignpostClient oauthClient;
 	private OAuthConsumer consumer;
@@ -45,7 +42,7 @@ public class OAuthFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		yamba = (YambaApp) getActivity().getApplication();
+		yamba = (YambaApp)getApplication();
 
 		consumer = new CommonsHttpOAuthConsumer(OAUTH_KEY, OAUTH_SECRET);
 		provider = new DefaultOAuthProvider(
@@ -55,7 +52,7 @@ public class OAuthFragment extends Fragment {
 
 		// Read the prefs to see if we have token
 		yamba.prefs = PreferenceManager
-				.getDefaultSharedPreferences(getActivity());
+				.getDefaultSharedPreferences(this);
 		String username = yamba.prefs.getString("username", "");
 		String token = yamba.prefs.getString("token", null);
 		String tokenSecret = yamba.prefs.getString("tokenSecret", null);
@@ -67,53 +64,46 @@ public class OAuthFragment extends Fragment {
 					token, tokenSecret);
 			yamba.twitter = new Twitter(username, oauthClient);
 		}
-	}
-
-	/*
-	 * The system calls this when it's time for the fragment to draw its user
-	 * interface for the first time.
-	 */
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		Log.d(TAG, "onCreateView");
-		layout = inflater.inflate(R.layout.oauth, container, false);
-		TextView usernameText = (TextView) layout.findViewById(R.id.username);
+		
+		setContentView(R.layout.oauth);
+		TextView usernameText = (TextView) findViewById(R.id.username);
 		usernameText.setText(yamba.prefs.getString("username", ""));
 
-		Button authorizeButton = (Button) layout
-				.findViewById(R.id.authorize_button);
+		Button authorizeButton = (Button) findViewById(R.id.authorize_button);
 		authorizeButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
-				username = ((EditText) layout.findViewById(R.id.username))
-						.getText().toString();
+//				username = ((EditText) layout.findViewById(R.id.username))
+//						.getText().toString();
 				new OAuthAuthorizeTask().execute();
 			}
 		});
 
-		return layout;
 	}
 
+	
 	/*
 	 * Callback once we are done with the authorization of this app with
 	 * Twitter.
 	 */
-	// @Override
-	// public void onNewIntent(Intent intent) {
-	// super.onNewIntent(intent);
-	// Log.d(TAG, "intent: " + intent);
-	//
-	// // Check if this is a callback from OAuth
-	// Uri uri = intent.getData();
-	// if (uri != null && uri.getScheme().equals(OAUTH_CALLBACK_SCHEME)) {
-	// Log.d(TAG, "callback: " + uri.getPath());
-	//
-	// String verifier = uri.getQueryParameter(OAuth.OAUTH_VERIFIER);
-	// Log.d(TAG, "verifier: " + verifier);
-	//
-	// new RetrieveAccessTokenTask().execute(verifier);
-	// }
-	// }
+	@Override
+	public void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		Log.d(TAG, "intent: " + intent);
+
+		// Check if this is a callback from OAuth
+		Uri uri = intent.getData();
+		if (uri != null && uri.getScheme().equals(OAUTH_CALLBACK_SCHEME)) {
+			Log.d(TAG, "callback: " + uri.getPath());
+
+			String verifier = uri.getQueryParameter(OAuth.OAUTH_VERIFIER);
+			Log.d(TAG, "verifier: " + verifier);
+
+			new RetrieveAccessTokenTask().execute(verifier);
+		} else {
+			Log.d(TAG, "NO callback nor verifier: " + uri.getPath());
+
+		}
+	}
 
 	/* Responsible for starting the Twitter authorization */
 	class OAuthAuthorizeTask extends AsyncTask<Void, Void, String> {
@@ -148,7 +138,7 @@ public class OAuthFragment extends Fragment {
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			if (result != null) {
-				Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
+				Toast.makeText(OAuthActivity.this, result, Toast.LENGTH_LONG).show();
 			}
 		}
 	}
@@ -186,6 +176,9 @@ public class OAuthFragment extends Fragment {
 				Log.d(TAG, "token: " + token);
 
 				message = "Successfully authorized with Twitter";
+				
+				// Start main activity
+				startActivity( new Intent(OAuthActivity.this, MainActivity.class));
 			} catch (OAuthMessageSignerException e) {
 				message = "OAuthMessageSignerException";
 				e.printStackTrace();
@@ -206,7 +199,7 @@ public class OAuthFragment extends Fragment {
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			if (result != null) {
-				Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
+				Toast.makeText(OAuthActivity.this, result, Toast.LENGTH_LONG).show();
 			}
 		}
 	}

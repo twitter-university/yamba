@@ -3,7 +3,6 @@ package com.marakana.yamba;
 import winterwell.jtwitter.OAuthSignpostClient;
 import winterwell.jtwitter.Twitter;
 import android.app.Application;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -29,10 +28,10 @@ public class YambaApp extends Application {
       OAuthSignpostClient oauthClient = new OAuthSignpostClient(
           OAuthFragment.OAUTH_KEY, OAuthFragment.OAUTH_SECRET, token,
           tokenSecret);
-      twitter = new Twitter("MarkoGargenta", oauthClient);
+      twitter = new Twitter(username, oauthClient);
     } else {
-      startActivity(new Intent(this, OAuthFragment.class)
-          .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+//      startActivity(new Intent(this, OAuthFragment.class)
+//          .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
   }
 
