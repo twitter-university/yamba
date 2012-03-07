@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<resources>
-    <string name="permission_label_access_service">Permission to access a service.</string>
-    <string name="permission_label_stop_service">Permission to stop a service.</string>
-</resources>
