@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="interval_names">
+        <item>A minute</item>
+        <item>Fifteen minutes</item>
+        <item>Once a day</item>
+        <item>Never</item>
+    </string-array>
+    
+    <!-- in seconds -->
+    <string-array name="interval_values">
+        <item>60</item>
+        <item>900</item>
+        <item>86400</item>
+        <item>0</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="action_button" parent="android:Widget.Holo.Light.Button">
+        <item name="android:background">@android:drawable/picture_frame</item>
+    </style>
+    <style name="text_area" parent="android:Widget.Holo.Light.EditText">
+        <item name="android:gravity">top</item>
+        <item name="android:inputType">textMultiLine</item>
+    </style>
+    <style name="title" parent="android:Widget.Holo.Light.TextView">
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+    </style>
+</resources>
