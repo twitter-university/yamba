@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.marakana.android.yamba"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="15" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application
+        android:name=".YambaApp"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Holo.Light" >
+        <activity
+            android:name=".TimelineActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".StatusActivity"
+            android:label="@string/yamba_status" >
+        </activity>
+        <activity
+            android:name=".PrefsActivity"
+            android:label="@string/yamba_prefs" >
+        </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/yamba_about" >
+        </activity>
+
+        <service android:name=".UpdateService" >
+            <intent-filter>
+                <action android:name="com.marakana.action.UPDATE_SERVICE" />
+            </intent-filter>
+        </service>
+        <service android:name=".RefreshService" >
+            <intent-filter>
+                <action android:name="com.marakana.action.REFRESH" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name=".BootReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <provider
+            android:name=".StatusProvider"
+            android:authorities="com.marakana.android.yamba.provider" >
+        </provider>
+
+        <receiver
+            android:name=".YambaWidget"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.marakana.broadcast.NEW_STATUS" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget" />
+        </receiver>
+    </application>
+
+</manifest>

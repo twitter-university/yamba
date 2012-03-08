@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <EditTextPreference
+        android:key="username"
+        android:summary="@string/username_summary"
+        android:title="@string/username" />
+    <EditTextPreference
+        android:key="password"
+        android:summary="@string/password_summary"
+        android:title="@string/password" />
+    <EditTextPreference
+        android:key="server"
+        android:summary="@string/server_summary"
+        android:title="@string/server" />
+
+    <ListPreference
+        android:entries="@array/interval_names"
+        android:entryValues="@array/interval_values"
+        android:key="interval"
+        android:summary="@string/interval_summary"
+        android:title="@string/interval"
+        android:defaultValue="0" />
+
+</PreferenceScreen>
