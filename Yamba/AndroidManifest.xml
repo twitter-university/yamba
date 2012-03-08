@@ -36,6 +36,11 @@
             android:name=".AboutActivity"
             android:label="@string/yamba_about" >
         </activity>
+        <activity
+            android:name=".DetailsActivity"
+            android:label="@string/yamba_details" 
+            android:exported="false">
+        </activity>
 
         <service android:name=".UpdateService" >
             <intent-filter>

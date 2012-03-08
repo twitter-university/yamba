@@ -9,6 +9,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:text="Slashdot"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -19,17 +21,21 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/text_user"
         android:autoLink="all"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:text="Today, Android officially takes over the world as number one mobile OS http://android.com/"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/text_createdAt"
-        android:textColor="@android:color/holo_blue_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/text_user"
         android:layout_alignBottom="@+id/text_user"
         android:layout_alignParentRight="true"
-        android:text="10 minutes ago" />
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:text="10 minutes ago"
+        android:textColor="@android:color/holo_blue_light" />
 
 </RelativeLayout>

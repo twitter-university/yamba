@@ -1,5 +1,8 @@
 package com.marakana.android.yamba;
 
+import java.util.Date;
+
+import winterwell.jtwitter.Twitter;
 import winterwell.jtwitter.Twitter.Status;
 import android.content.ContentValues;
 import android.content.Context;
@@ -22,7 +25,7 @@ public class StatusData {
 	static final String C_TEXT = "yamba_text";
 
 	static final String SORT_BY = C_CREATED_AT + " DESC";
-	
+
 	private DbHelper dbHelper;
 
 	/** Constructor */
@@ -39,7 +42,7 @@ public class StatusData {
 		values.put(C_TEXT, status.text);
 		return values;
 	}
-	
+
 	/** Inserts the status into the database. */
 	public long insert(Status status) {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -87,7 +90,7 @@ public class StatusData {
 			onCreate(db);
 		}
 	}
-	
+
 	/** Getter. */
 	public DbHelper getDbHelper() {
 		return dbHelper;

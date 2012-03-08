@@ -22,4 +22,6 @@
     <string name="refresh">Refresh</string>
     <string name="update_successful">Successfully posted</string>
     <string name="update_failed">Failed to post</string>
+    <string name="yamba_details">Yamba Details</string>
+    <string name="details">details</string>
 </resources>

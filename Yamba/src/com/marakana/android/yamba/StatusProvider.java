@@ -143,11 +143,13 @@ public class StatusProvider extends ContentProvider {
 		case ALL_STATUS:
 			cursor = db.query(StatusData.TABLE, projection, selection,
 					selectionArgs, null, null, sortOrder);
+			Log.d(TAG, "query for ALL_STATUS uri: "+uri);
 			break;
 
 		case SINGLE_STATUS:
 			cursor = db.query(StatusData.TABLE, projection, StatusData.C_ID
 					+ "=" + ContentUris.parseId(uri), null, null, null, null);
+			Log.d(TAG, "query for SINGLE_STATUS id: "+ContentUris.parseId(uri));
 			break;
 
 		default:
