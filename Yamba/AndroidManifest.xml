@@ -56,7 +56,7 @@
 
         <provider
             android:name=".StatusProvider"
-            android:authorities="com.marakana.android.yamba.provider" >
+            android:authorities="com.marakana.android.yamba.statusprovider" >
         </provider>
 
         <receiver
