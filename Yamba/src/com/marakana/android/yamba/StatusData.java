@@ -1,8 +1,5 @@
 package com.marakana.android.yamba;
 
-import java.util.Date;
-
-import winterwell.jtwitter.Twitter;
 import winterwell.jtwitter.Twitter.Status;
 import android.content.ContentValues;
 import android.content.Context;
