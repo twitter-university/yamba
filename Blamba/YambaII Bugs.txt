@@ -1,0 +1,8 @@
+twitter object in StatusActivity must be volatile
+
+Text count is wrong after rotate
+
+Toast gets dropped if there is no activity
+
+titlePrefs > prefsTitle in ex06
+

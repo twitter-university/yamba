@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Yamba</string>
+
+    <string name="statusTitle">Status</string>
+    <string name="statusLen">140</string>
+    <string name="statusHint">Please enter your 140 character status</string>
+    <string name="submit">Submit</string>
+    <string name="statusFail">Update failed</string>
+    <string name="statusSuccess">Update succeeded</string>
+
+</resources>

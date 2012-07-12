@@ -1,0 +1,20 @@
+01 Hello world
+02 Layouts: Fonts, Colors and Styles
+03 Add a key handler
+04 Naive posting and Toast
+05 Post using AsyncTask
+06 Add a menu
+07 Upgrade to ICS
+08 Add a Prefs activity
+09 Add an Application object
+10 Add an updater service
+11 Add DAO and wire it to the Updater service
+12 Add a ListActivity for the timeline
+13 Add BroadcastReceiver for timeline updates
+14 Add Content Provider
+15 Add YamaClient, client for Yamba Content Provider
+15.x Replace YambaClient listener with ContentResolver notifications
+16 Convert YambaClient to Fragments
+17 Add small display support to YambaClient
+18 Backport YambaClient to Gingerbread
+
