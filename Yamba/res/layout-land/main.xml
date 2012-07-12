@@ -5,17 +5,18 @@
     android:orientation="horizontal" >
 
     <fragment
-        android:id="@+id/timeline"
-        android:layout_width="0px"
+        android:id="@+id/fragment_timeline"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight=".5"
         class="com.marakana.android.yamba.TimelineFragment" />
-
-    <FrameLayout
-        android:id="@+id/details"
-        android:layout_width="0px"
+    
+    <fragment
+        android:id="@+id/fragment_status"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="?android:attr/detailsElementBackground" />
+        class="com.marakana.android.yamba.StatusFragment" />
+
 
 </LinearLayout>

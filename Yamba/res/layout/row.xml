@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/text_user"
@@ -9,33 +10,25 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:text="Slashdot"
+        android:text="Bob"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/text_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/text_user"
-        android:autoLink="all"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:text="Today, Android officially takes over the world as number one mobile OS http://android.com/"
+        android:text="I had an amazing omelet for breakfast today. http://en.wikipedia.org/wiki/Omelette"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/text_createdAt"
+        android:id="@+id/text_created_at"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/text_user"
         android:layout_alignBottom="@+id/text_user"
         android:layout_alignParentRight="true"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
         android:text="10 minutes ago"
-        android:textColor="@android:color/holo_blue_light" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

@@ -12,14 +12,6 @@
     <EditTextPreference
         android:key="server"
         android:summary="@string/server_summary"
-        android:title="@string/server" />
-
-    <ListPreference
-        android:entries="@array/interval_names"
-        android:entryValues="@array/interval_values"
-        android:key="interval"
-        android:summary="@string/interval_summary"
-        android:title="@string/interval"
-        android:defaultValue="0" />
+        android:title="@string/app_name" />
 
 </PreferenceScreen>

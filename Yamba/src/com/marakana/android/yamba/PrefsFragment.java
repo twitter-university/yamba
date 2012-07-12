@@ -1,15 +1,13 @@
 package com.marakana.android.yamba;
 
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
+import android.preference.PreferenceFragment;
 
-public class PrefsActivity extends PreferenceActivity {
+public class PrefsFragment extends PreferenceFragment {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.prefs);
 	}
-
-	
 }
