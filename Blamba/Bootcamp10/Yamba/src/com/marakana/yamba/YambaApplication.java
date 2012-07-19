@@ -1,7 +1,5 @@
 package com.marakana.yamba;
 
-import winterwell.jtwitter.Twitter;
-
 import android.app.AlarmManager;
 import android.app.Application;
 import android.app.PendingIntent;
@@ -11,6 +9,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.marakana.android.yamba.clientlib.YambaClient;
 import com.marakana.yamba.svc.UpdaterService;
 
 /**
@@ -24,9 +23,8 @@ public class YambaApplication extends Application
     public static final String KEY_USERNAME = "PREFS_USER";
     public static final String KEY_PASSWORD = "PREFS_PWD";
     public static final String KEY_API_ROOT = "PREFS_URL";
-    public static final String DEFAULT_API_ROOT = "http://yamba.marakana.com/api";
 
-    private Twitter twitter;
+    private YambaClient client;
 
     /**
      * @see android.app.Application#onCreate()
@@ -60,26 +58,21 @@ public class YambaApplication extends Application
      */
     @Override
     public synchronized void onSharedPreferenceChanged(SharedPreferences key, String val) {
-        twitter = null;
+        client = null;
     }
 
     /**
      * @return a current, valid, twitter object
      */
-    public synchronized Twitter getTwitter() {
-        if (twitter == null) {
+    public synchronized YambaClient getYambaClient() {
+        if (client == null) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            String user = prefs.getString(KEY_USERNAME, "");
-            String pass = prefs.getString(KEY_PASSWORD, "");
-            String api = prefs.getString(KEY_API_ROOT, DEFAULT_API_ROOT);
-
-            Twitter t = new Twitter(user, pass);
-            t.setAPIRootUrl(api);
-
-            Log.d(TAG, "new twitter: " + user + ", " + pass + ", " + api);
-            twitter = t;
+            client = new YambaClient(
+                prefs.getString(KEY_USERNAME, "student"),
+                prefs.getString(KEY_PASSWORD, "password"),
+                prefs.getString(KEY_API_ROOT, YambaClient.DEFAULT_API_ROOT));
         }
 
-        return twitter;
+        return client;
     }
 }

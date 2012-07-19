@@ -3,7 +3,7 @@
     <item
         android:id="@+id/itemPrefs"
         android:icon="@android:drawable/ic_menu_preferences"
-        android:title="@string/titlePrefs"/>
+        android:title="@string/prefsTitle"/>
     
     <!-- 
     android:showAsAction="ifRoom|withText"

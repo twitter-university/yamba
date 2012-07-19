@@ -24,8 +24,12 @@ public class TimelineProvider extends ContentProvider {
     private static final UriMatcher uriMatcher;
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        uriMatcher.addURI(TimelineContract.AUTHORITY, TimelineContract.TABLE, STATUS_DIR);
-        uriMatcher.addURI(TimelineContract.AUTHORITY, TimelineContract.TABLE + "/#", STATUS_ITEM);
+        uriMatcher.addURI(
+                TimelineContract.AUTHORITY,
+                TimelineContract.TABLE_TIMELINE, STATUS_DIR);
+        uriMatcher.addURI(
+                TimelineContract.AUTHORITY,
+                TimelineContract.TABLE_TIMELINE + "/#", STATUS_ITEM);
     }
 
     // cached local reference to the DAO object
@@ -83,7 +87,7 @@ public class TimelineProvider extends ContentProvider {
             projection,
             selection,
             selectionArgs,
-            (!TextUtils.isEmpty(sort)) ? sort : TimelineContract.Columns.DEFAULT_SORT_ORDER);
+            (!TextUtils.isEmpty(sort)) ? sort : TimelineDao.DEFAULT_SORT_ORDER);
 
         // Notify the context's ContentResolver if the cursor result set changes
         c.setNotificationUri(getContext().getContentResolver(), uri);
