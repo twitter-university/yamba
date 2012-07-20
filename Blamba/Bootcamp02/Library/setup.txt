@@ -52,7 +52,7 @@ From Eclipse, Help > Install New Software. In the "Work with:" selector, choose:
 == The class code repository
 From Eclipse, File > Import. In the selection box find Git > Projects from Git. In the Select Repository Source dialog, select URI and, in the next dialog, enter the URL:
 
-https://github.com/bmeike/Yamba-12_07_09.git
+https://github.com/bmeike/Bootcamp-<date>.git
 
 There rest of the box should populate. You should be able to accept the defaults for the rest of the dialogs (you might want to choose another Local Destination for your project). Import existing projects and finish.
 

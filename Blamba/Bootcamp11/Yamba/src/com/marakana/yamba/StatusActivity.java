@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import winterwell.jtwitter.TwitterException;
+import com.marakana.android.yamba.clientlib.YambaClientException;
 
 
 /**
@@ -73,7 +73,7 @@ public class StatusActivity extends Activity {
         editText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                updateStatusLen(((EditText) v).getText().length());
+                updateStatusLen();
                 return false;
             }
         });
@@ -84,17 +84,6 @@ public class StatusActivity extends Activity {
             } );
 
         toast = Toast.makeText(this, null, Toast.LENGTH_LONG);
-    }
-
-    void updateStatusLen(int length) {
-        int remaining = MAX_TEXT - length;
-        int color;
-        if (remaining <= RED_LEVEL) { color = Color.RED; }
-        else if (remaining <= YELLOW_LEVEL) { color = Color.YELLOW; }
-        else { color = Color.GREEN; }
-
-        textCount.setText(String.valueOf(remaining));
-        textCount.setTextColor(color);
     }
 
     /**
@@ -140,7 +129,20 @@ public class StatusActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        updateStatusLen();
         if (null != poster) { poster.setActivity(this); }
+    }
+
+    void updateStatusLen() {
+        int remaining = MAX_TEXT - editText.getText().length();
+
+        int color;
+        if (remaining <= RED_LEVEL) { color = Color.RED; }
+        else if (remaining <= YELLOW_LEVEL) { color = Color.YELLOW; }
+        else { color = Color.GREEN; }
+
+        textCount.setText(String.valueOf(remaining));
+        textCount.setTextColor(color);
     }
 
     void update() {
@@ -159,17 +161,17 @@ public class StatusActivity extends Activity {
 
     void clearText() {
         editText.setText("");
-        updateStatusLen(0);
+        updateStatusLen();
     }
 
     // !!! run on a different thread!
     int post(String status) {
         try {
             Log.d(TAG, "posting status: " + status);
-            ((YambaApplication) getApplication()).getTwitter().setStatus(status);
+            ((YambaApplication) getApplication()).getYambaClient().postStatus(status);
             return R.string.statusSuccess;
         }
-        catch (TwitterException e) {
+        catch (YambaClientException e) {
             Log.e(TAG, "Failed to post message", e);
         }
 

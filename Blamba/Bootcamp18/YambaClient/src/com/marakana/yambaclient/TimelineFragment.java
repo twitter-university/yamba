@@ -11,7 +11,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,8 +28,10 @@ import com.marakana.yamba.data.TimelineContract;
 public class TimelineFragment extends ListFragment
     implements LoaderManager.LoaderCallbacks<Cursor>
 {
-    /** Status update intent */
     public static final String NEW_STATUS_INTENT = "com.marakana.yamba.NEW_STATUS";
+    public static final String NEW_STATUS_COUNT = "com.marakana.yamba.extra.NEW_STATUS_COUNT";
+
+    private static final String TAG = "TimelineActivity";
 
     private static final int LOADER_ID = 37;
 
@@ -46,17 +47,8 @@ public class TimelineFragment extends ListFragment
         R.id.textStatus
     };
 
-    // Receiver to wake up when UpdaterService gets a new status
-    // It refreshes the timeline list by requerying the cursor
-    class TimelineReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            refresh();
-            Log.d("TAG", "Notification Received");
-        }
-    }
+    static class TimelineBinder implements SimpleCursorAdapter.ViewBinder {
 
-    static class TimelineBinder implements ViewBinder {
         @Override
         public boolean setViewValue(View view, Cursor cursor, int colIndex) {
             if (view.getId() != R.id.textTime) { return false; }
@@ -72,10 +64,48 @@ public class TimelineFragment extends ListFragment
         }
     }
 
+    class UpdateReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle extra = intent.getExtras();
+            Log.d(TAG, "Broadcast received: " + extra.getInt(NEW_STATUS_COUNT));
+            refresh();
+        }
+    }
+
     private SimpleCursorAdapter listAdapter;
-    private TimelineReceiver receiver;
+    private UpdateReceiver receiver;
     private IntentFilter filter;
 
+    /**
+     * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onCreateLoader(int, android.os.Bundle)
+     */
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(
+            getActivity().getApplicationContext(),
+            TimelineContract.CONTENT_URI,
+            null,
+            null,
+            null,
+            null);
+    }
+
+    /**
+     * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onLoadFinished(android.content.Loader, java.lang.Object)
+     */
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        listAdapter.swapCursor(data);
+    }
+
+    /**
+     * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onLoaderReset(android.content.Loader)
+     */
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        listAdapter.swapCursor(null);
+    }
 
     /**
      * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -84,13 +114,13 @@ public class TimelineFragment extends ListFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle b) {
         View view = super.onCreateView(inflater, container, b);
 
-        getLoaderManager().initLoader(LOADER_ID, null, this);
-
         listAdapter = new SimpleCursorAdapter(getActivity(), R.layout.row, null, FROM, TO, 0);
         listAdapter.setViewBinder(new TimelineBinder());
         setListAdapter(listAdapter);
 
-        receiver = new TimelineReceiver();
+        getLoaderManager().initLoader(LOADER_ID, null, this);
+
+        receiver = new UpdateReceiver();
         filter = new IntentFilter(NEW_STATUS_INTENT);
 
         return view;
@@ -111,8 +141,8 @@ public class TimelineFragment extends ListFragment
     @Override
     public void onResume() {
         super.onResume();
-        refresh();
         getActivity().registerReceiver(receiver, filter);
+        refresh();
     }
 
     /**
@@ -127,37 +157,6 @@ public class TimelineFragment extends ListFragment
             TimelineActivity.TAG_TEXT,
             cursor.getString(cursor.getColumnIndex(TimelineContract.Columns.TEXT)));
         startActivity(intent);
-    }
-
-    /**
-     * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onCreateLoader(int, android.os.Bundle)
-     */
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(
-            getActivity().getApplicationContext(),
-            TimelineContract.CONTENT_URI,
-            null,
-            null,
-            null,
-            null);
-    }
-
-    /**
-     * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onLoadFinished(android.support.v4.content.Loader, java.lang.Object)
-     */
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        listAdapter.swapCursor(cursor);
-        listAdapter.notifyDataSetChanged();
-    }
-
-    /**
-     * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onLoaderReset(android.support.v4.content.Loader)
-     */
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        listAdapter.swapCursor(null);
     }
 
     void refresh() {

@@ -2,14 +2,12 @@ package com.marakana.yamba.svc;
 
 import java.util.List;
 
-import winterwell.jtwitter.Twitter;
-import winterwell.jtwitter.TwitterException;
-import winterwell.jtwitter.Twitter.Status;
-
 import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
+import com.marakana.android.yamba.clientlib.YambaClient;
+import com.marakana.android.yamba.clientlib.YambaClientException;
 import com.marakana.yamba.YambaApplication;
 
 
@@ -17,7 +15,11 @@ import com.marakana.yamba.YambaApplication;
  * UpdaterService
  */
 public class UpdaterService extends IntentService {
+    /** Polling interval */
     public static final long POLL_INTERVAL = 3 * 1000;
+
+    /** Max timeline length */
+    public static final int MAX_TIMELINE_SIZE = 200;
 
     private static final String TAG = "UpdaterService";
 
@@ -36,21 +38,17 @@ public class UpdaterService extends IntentService {
     private void fetchStatusUpdates() {
         Log.d(TAG, "Fetching status updates");
 
-        Twitter twit = ((YambaApplication) getApplication()).getTwitter();
-        if (twit == null) {
+        YambaClient client = ((YambaApplication) getApplication()).getYambaClient();
+        if (client == null) {
             Log.d(TAG, "Twitter connection info not initialized");
             return;
         }
 
         // http://www.wherever.com/foo/bar?this=that&time=now
-        List<Status> statuses = null;
-        Exception fail = null;
-        try { statuses = twit.getFriendsTimeline(); }
-        catch (NullPointerException e) { fail = e; }
-        catch (TwitterException e) { fail = e; }
-
-        if (null != fail) {
-            Log.e(TAG, "Failed to fetch status updates", fail);
+        List<YambaClient.Status> statuses = null;
+        try { statuses = client.getTimeline(MAX_TIMELINE_SIZE); }
+        catch (YambaClientException e) {
+            Log.e(TAG, "Failed to fetch status updates", e);
             return;
         }
 
@@ -58,14 +56,14 @@ public class UpdaterService extends IntentService {
         Log.d(TAG, "New records added: " + nUpdates);
     }
 
-    private int addAll(List<Status> statuses) {
-        for (Status status: statuses) {
+    private int addAll(List<YambaClient.Status> statuses) {
+        for (YambaClient.Status status: statuses) {
             Log.v(
                 TAG,
-                status.user.name
-                    + "#" + status.id
-                    + " @" + status.createdAt
-                    + ": " + status.text);
+                status.getUser()
+                    + "#" + status.getId()
+                    + " @" + status.getCreatedAt()
+                    + ": " + status.getMessage());
         }
 
         return statuses.size();

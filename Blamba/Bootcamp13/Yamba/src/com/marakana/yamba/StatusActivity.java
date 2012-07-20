@@ -1,7 +1,6 @@
 package com.marakana.yamba;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import winterwell.jtwitter.TwitterException;
+import com.marakana.android.yamba.clientlib.YambaClientException;
 
 
 /**
@@ -56,6 +54,7 @@ public class StatusActivity extends Activity {
         }
     }
 
+    private ActionBarMgr actionBar;
     private TextView textCount;
     private EditText editText;
     private Poster poster;
@@ -73,7 +72,7 @@ public class StatusActivity extends Activity {
         editText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                updateStatusLen(((EditText) v).getText().length());
+                updateStatusLen();
                 return false;
             }
         });
@@ -83,18 +82,9 @@ public class StatusActivity extends Activity {
                 @Override public void onClick(View v) { update(); }
             } );
 
+        actionBar = new ActionBarMgr(this);
+
         toast = Toast.makeText(this, null, Toast.LENGTH_LONG);
-    }
-
-    void updateStatusLen(int length) {
-        int remaining = MAX_TEXT - length;
-        int color;
-        if (remaining <= RED_LEVEL) { color = Color.RED; }
-        else if (remaining <= YELLOW_LEVEL) { color = Color.YELLOW; }
-        else { color = Color.GREEN; }
-
-        textCount.setText(String.valueOf(remaining));
-        textCount.setTextColor(color);
     }
 
     /**
@@ -102,38 +92,17 @@ public class StatusActivity extends Activity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return true;
+        return actionBar.populateActionBar(menu);
     }
 
     /**
-     * @param item
-     * @return true
+     * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.itemTimeline:
-                startActivity(new Intent(this, TimelineActivity.class)
-                    .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
-                break;
-
-            case R.id.itemStatus:
-                startActivity(new Intent(this, StatusActivity.class)
-                    .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
-                break;
-
-            case R.id.itemPrefs:
-                startActivity(new Intent(this, PrefsActivity.class));
-                return true;
-
-            default:
-                Log.d(TAG, "Unrecognized menu item: " + item);
-                return false;
-        }
-
-        return true;
+        return (R.id.itemStatus == item.getItemId())
+            ? false
+            : actionBar.handleSelection(item);
     }
 
     /**
@@ -151,7 +120,20 @@ public class StatusActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        updateStatusLen();
         if (null != poster) { poster.setActivity(this); }
+    }
+
+    void updateStatusLen() {
+        int remaining = MAX_TEXT - editText.getText().length();
+
+        int color;
+        if (remaining <= RED_LEVEL) { color = Color.RED; }
+        else if (remaining <= YELLOW_LEVEL) { color = Color.YELLOW; }
+        else { color = Color.GREEN; }
+
+        textCount.setText(String.valueOf(remaining));
+        textCount.setTextColor(color);
     }
 
     void update() {
@@ -170,17 +152,17 @@ public class StatusActivity extends Activity {
 
     void clearText() {
         editText.setText("");
-        updateStatusLen(0);
+        updateStatusLen();
     }
 
     // !!! run on a different thread!
     int post(String status) {
         try {
             Log.d(TAG, "posting status: " + status);
-            ((YambaApplication) getApplication()).getTwitter().setStatus(status);
+            ((YambaApplication) getApplication()).getYambaClient().postStatus(status);
             return R.string.statusSuccess;
         }
-        catch (TwitterException e) {
+        catch (YambaClientException e) {
             Log.e(TAG, "Failed to post message", e);
         }
 

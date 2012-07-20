@@ -12,8 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import winterwell.jtwitter.Twitter;
-import winterwell.jtwitter.TwitterException;
+import com.marakana.android.yamba.clientlib.YambaClient;
+import com.marakana.android.yamba.clientlib.YambaClientException;
 
 
 /**
@@ -30,7 +30,7 @@ public class StatusActivity extends Activity {
     /** Update over max len */
     public static final int RED_LEVEL = 0;
 
-    private Twitter twitter;
+    private YambaClient client;
 
     private TextView textCount;
     private EditText editText;
@@ -48,7 +48,7 @@ public class StatusActivity extends Activity {
         editText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                updateStatusLen(((EditText) v).getText().length());
+                updateStatusLen();
                 return false;
             }
         });
@@ -58,14 +58,23 @@ public class StatusActivity extends Activity {
                 @Override public void onClick(View v) { update(); }
             } );
 
-        twitter = new Twitter("student", "password");
-        twitter.setAPIRootUrl("http://yamba.marakana.com/api");
+        client = new YambaClient("student", "password");
 
         toast = Toast.makeText(this, null, Toast.LENGTH_LONG);
     }
 
-    void updateStatusLen(int length) {
-        int remaining = MAX_TEXT - length;
+    /**
+     * @see android.app.Activity#onResume()
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateStatusLen();
+    }
+
+    void updateStatusLen() {
+        int remaining = MAX_TEXT - editText.getText().length();
+
         int color;
         if (remaining <= RED_LEVEL) { color = Color.RED; }
         else if (remaining <= YELLOW_LEVEL) { color = Color.YELLOW; }
@@ -88,19 +97,19 @@ public class StatusActivity extends Activity {
 
     void clearText() {
         editText.setText("");
-        updateStatusLen(0);
+        updateStatusLen();
     }
 
     int post(String status) {
         try {
             Log.d(TAG, "posting status: " + status);
-            twitter.setStatus(status);
+            client.postStatus(status);
             // Emulate a slow network
             try { Thread.sleep(60 * 1000); }
             catch (InterruptedException e) { }
             return R.string.statusSuccess;
         }
-        catch (TwitterException e) {
+        catch (YambaClientException e) {
             Log.e(TAG, "Failed to post message", e);
         }
 

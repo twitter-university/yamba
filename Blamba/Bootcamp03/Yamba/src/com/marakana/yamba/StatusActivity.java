@@ -13,6 +13,7 @@ import android.widget.TextView;
  * StatusActivity
  */
 public class StatusActivity extends Activity {
+
     /** Max status update len */
     public static final int MAX_TEXT = 140;
     /** Long update warning */
@@ -35,14 +36,24 @@ public class StatusActivity extends Activity {
         editText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                updateStatusLen(((EditText) v).getText().length());
+                updateStatusLen();
                 return false;
             }
         });
     }
 
-    void updateStatusLen(int length) {
-        int remaining = MAX_TEXT - length;
+    /**
+     * @see android.app.Activity#onResume()
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateStatusLen();
+    }
+
+    void updateStatusLen() {
+        int remaining = MAX_TEXT - editText.getText().length();
+
         int color;
         if (remaining <= RED_LEVEL) { color = Color.RED; }
         else if (remaining <= YELLOW_LEVEL) { color = Color.YELLOW; }

@@ -15,11 +15,9 @@ import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SimpleCursorAdapter;
-import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
 
 import com.marakana.yamba.data.TimelineContract;
@@ -74,7 +72,7 @@ implements LoaderManager.LoaderCallbacks<Cursor>
         }
     }
 
-    static class TimelineBinder implements ViewBinder {
+    static class TimelineBinder implements SimpleCursorAdapter.ViewBinder {
 
         @Override
         public boolean setViewValue(View view, Cursor cursor, int colIndex) {
@@ -103,44 +101,24 @@ implements LoaderManager.LoaderCallbacks<Cursor>
     private SimpleCursorAdapter listAdapter;
     private UpdateReceiver receiver;
     private IntentFilter filter;
+    private ActionBarMgr actionBar;
 
     /**
      * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return true;
+        return actionBar.populateActionBar(menu);
     }
 
     /**
-     * @param item
-     * @return true
+     * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.itemTimeline:
-                startActivity(new Intent(this, TimelineActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
-                break;
-
-            case R.id.itemStatus:
-                startActivity(new Intent(this, StatusActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
-                break;
-
-            case R.id.itemPrefs:
-                startActivity(new Intent(this, PrefsActivity.class));
-                return true;
-
-            default:
-                Log.d(TAG, "Unrecognized menu item: " + item);
-                return false;
-        }
-
-        return true;
+        return (R.id.itemTimeline == item.getItemId())
+            ? false
+            : actionBar.handleSelection(item);
     }
 
     /**
@@ -174,23 +152,16 @@ implements LoaderManager.LoaderCallbacks<Cursor>
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getLoaderManager().initLoader(LOADER_ID, null, this);
-
         listAdapter = new SimpleCursorAdapter(this, R.layout.row, null, FROM, TO, 0);
         listAdapter.setViewBinder(new TimelineBinder());
         setListAdapter(listAdapter);
 
+        getLoaderManager().initLoader(LOADER_ID, null, this);
+
         receiver = new UpdateReceiver();
         filter = new IntentFilter(UpdaterService.NEW_STATUS_INTENT);
-    }
 
-    /**
-     * @see android.app.Activity#onResume()
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        registerReceiver(receiver, filter);
+        actionBar = new ActionBarMgr(this);
     }
 
     /**
@@ -200,6 +171,15 @@ implements LoaderManager.LoaderCallbacks<Cursor>
     protected void onPause() {
         super.onPause();
         unregisterReceiver(receiver);
+     }
+
+    /**
+     * @see android.app.Activity#onResume()
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(receiver, filter);
         refresh();
     }
 

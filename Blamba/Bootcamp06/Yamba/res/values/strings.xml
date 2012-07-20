@@ -10,5 +10,5 @@
     <string name="statusFail">Update failed</string>
     <string name="statusSuccess">Update succeeded</string>
 
-    <string name="titlePrefs">Prefs</string>
+    <string name="prefsTitle">Prefs</string>
 </resources>

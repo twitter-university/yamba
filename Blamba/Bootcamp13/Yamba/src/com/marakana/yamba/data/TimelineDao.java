@@ -20,6 +20,10 @@ public final class TimelineDao {
     static final int VERSION = 1;
     static final String DATABASE = "timeline.db";
 
+    /** The default sort order for this table, reverse chronological order */
+    public static final String DEFAULT_SORT_ORDER
+        = TimelineContract.Columns.CREATED_AT + " COLLATE LOCALIZED DESC";
+
     private static final String[] MAX_CREATED_AT_COLS= {
         "max(" + TimelineContract.Columns.CREATED_AT + ")"
     };
@@ -42,7 +46,7 @@ public final class TimelineDao {
         public void onCreate(SQLiteDatabase sqlDb) {
             Log.i(TAG, "Creating database: " + DATABASE);
             sqlDb.execSQL(
-                "create table " + TimelineContract.TABLE + " ("
+                "create table " + TimelineContract.TABLE_TIMELINE + " ("
                     + BaseColumns._ID + " int primary key, "
                     + TimelineContract.Columns.CREATED_AT + " int, "
                     + TimelineContract.Columns.USER + " text, "
@@ -51,7 +55,7 @@ public final class TimelineDao {
 
         @Override
         public void onUpgrade(SQLiteDatabase sqlDb, int oldVersion, int newVersion) {
-            sqlDb.execSQL("drop table " + TimelineContract.TABLE);
+            sqlDb.execSQL("drop table " + TimelineContract.TABLE_TIMELINE);
             onCreate(sqlDb);
         }
     }
@@ -74,7 +78,7 @@ public final class TimelineDao {
      */
     public long getLatestStatusCreatedAtTime() {
         Cursor cursor = getDb().query(
-            TimelineContract.TABLE,
+            TimelineContract.TABLE_TIMELINE,
             MAX_CREATED_AT_COLS,
             null,
             null,
@@ -91,7 +95,7 @@ public final class TimelineDao {
      * @return true iff row was inserted
      */
     public boolean insertOrIgnore(ContentValues values) {
-        try { return 0 < getDb().insertOrThrow(TimelineContract.TABLE, null, values); }
+        try { return 0 < getDb().insertOrThrow(TimelineContract.TABLE_TIMELINE, null, values); }
         catch (SQLException e) { }
         return false;
     }
@@ -101,13 +105,13 @@ public final class TimelineDao {
      */
     public Cursor getTimeline() {
         return getDb().query(
-            TimelineContract.TABLE,
+            TimelineContract.TABLE_TIMELINE,
             TIMELINE_COLS,
             null,
             null,
             null,
             null,
-            TimelineContract.Columns.DEFAULT_SORT_ORDER);
+            DEFAULT_SORT_ORDER);
     }
 
     private synchronized SQLiteDatabase getDb() {
