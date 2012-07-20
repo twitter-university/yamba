@@ -1,0 +1,4 @@
+Add a ContentProvider
+
+Stretch: Control access to the CP using permissions
+

@@ -1,0 +1,2 @@
+Create an Intent service to download and log timeline
+Run the service from the Alarm Manager, initialized in the application

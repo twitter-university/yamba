@@ -1,0 +1,4 @@
+Use the layout.xml file to create an attractive page
+
+Stretch: Use styles to standardize app appearance
+

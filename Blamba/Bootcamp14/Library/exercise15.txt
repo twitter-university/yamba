@@ -1,0 +1,2 @@
+Create an entire new Application, YambaClient, with a TimelineView
+whose source is the Yamba ContentProvider using a CursorLoader

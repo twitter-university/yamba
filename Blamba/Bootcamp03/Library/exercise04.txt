@@ -1,0 +1,4 @@
+
+Use the yambaclientlib to wire up the submit button.
+
+Stretch: Simulate a slow network (~60sec to post) and identify issues

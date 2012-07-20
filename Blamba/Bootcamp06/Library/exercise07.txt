@@ -1,0 +1,14 @@
+Convert program to min version = 13 (Honeycomb)
+
+Stretch:
+Experiment with:
+  in <uses-sdk>
+  android:targetSdkVersion="14"
+
+  in <application>
+  android:uiOptions="splitActionBarWhenNarrow" 
+  android:theme="@android:style/Theme.Holo.NoActionBar"
+
+  in menu.xml:
+  android:showAsAction="ifRoom|withText"
+

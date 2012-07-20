@@ -21,11 +21,11 @@ public final class TimelineContract {
     public static final String PERMISSION = "com.marakana.yamba.timeline.READ_TIMELINE";
 
     /** Our table */
-    public static final String TABLE = "timeline";
+    public static final String TABLE_TIMELINE = "timeline";
 
     /** Our base URI */
     public static final Uri CONTENT_URI
-        = Uri.parse("content://" + AUTHORITY + "/" + TABLE);
+        = Uri.parse("content://" + AUTHORITY + "/" + TABLE_TIMELINE);
 
     /** the MIME type of our data */
     public static final String TYPE_ITEM
@@ -49,8 +49,5 @@ public final class TimelineContract {
         public static final String TEXT = "txt";
         /** */
         public static final String USER = "user";
-
-        /** The default sort order for this table, reverse chronological order */
-        public static final String DEFAULT_SORT_ORDER = CREATED_AT + " COLLATE LOCALIZED DESC";
     }
 }

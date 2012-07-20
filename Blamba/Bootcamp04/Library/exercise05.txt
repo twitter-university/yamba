@@ -1,0 +1,3 @@
+Refactor posting code to use an AsyncTask
+
+Be sure to update the lifecycle methods to correctly manage references to the Activity
