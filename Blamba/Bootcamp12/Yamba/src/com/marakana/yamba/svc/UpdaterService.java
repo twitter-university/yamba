@@ -20,7 +20,7 @@ import com.marakana.yamba.data.TimelineDao;
  */
 public class UpdaterService extends IntentService {
     /** Polling interval */
-    public static final long POLL_INTERVAL = 3 * 1000;
+    public static final long POLL_INTERVAL = 3 * 60 * 1000;
 
     /** Max timeline length */
     public static final int MAX_TIMELINE_SIZE = 200;

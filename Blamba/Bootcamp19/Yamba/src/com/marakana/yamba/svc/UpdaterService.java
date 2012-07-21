@@ -87,6 +87,8 @@ public class UpdaterService extends IntentService {
 
     private void notifyNewStatus(int count) {
         Log.d(TAG, "Notify: " + count);
+        getApplication().getContentResolver().notifyChange(TimelineContract.CONTENT_URI, null);
+
         Intent broadcast = new Intent(NEW_STATUS_INTENT);
         broadcast.putExtra(NEW_STATUS_COUNT, count);
         sendBroadcast(broadcast, NEW_STATUS_PERM);

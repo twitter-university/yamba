@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+
+    <fragment
+        class="com.marakana.yambaclient.TimelineFragment"
+        android:id="@+id/timeline"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"  />
+    
+</LinearLayout>
