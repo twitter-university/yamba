@@ -62,7 +62,33 @@ public class TimelineFragment extends ListFragment
         }
     }
 
+    static class TimelineObserver extends ContentObserver {
+        private TimelineFragment frag;
+        private Cursor cursor;
+
+        public TimelineObserver(TimelineFragment frag, Handler hdlr) {
+            super(hdlr);
+            this.frag = frag;
+        }
+
+        @Override public void onChange(boolean selfChange) {
+            Log.d(TAG, "Change notification received");
+            frag.refresh();
+        }
+
+        public void registerWithCursor(Cursor crsr) {
+            this.cursor = crsr;
+            cursor.registerContentObserver(this);
+        }
+
+        public void unregisterWithCursor() {
+            cursor.unregisterContentObserver(this);
+        }
+    }
+
+
     private SimpleCursorAdapter listAdapter;
+    private TimelineObserver timelineObserver;
 
     /**
      * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onCreateLoader(int, android.os.Bundle)
@@ -79,21 +105,16 @@ public class TimelineFragment extends ListFragment
     }
 
     /**
-     * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onLoadFinished(android.content.Loader, java.lang.Object)
+     * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onLoadFinished(android.support.v4.content.Loader, java.lang.Object)
      */
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         listAdapter.swapCursor(data);
-        data.registerContentObserver(
-            new ContentObserver(new Handler()) {
-                @Override public void onChange(boolean selfChange) {
-                    Log.d(TAG, "OnChange called");
-                    refresh();
-                } });
+        timelineObserver.registerWithCursor(data);
     }
 
     /**
-     * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onLoaderReset(android.content.Loader)
+     * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onLoaderReset(android.support.v4.content.Loader)
      */
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
@@ -106,6 +127,8 @@ public class TimelineFragment extends ListFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle b) {
         View view = super.onCreateView(inflater, container, b);
+
+        timelineObserver = new TimelineObserver(this, new Handler());
 
         listAdapter = new SimpleCursorAdapter(getActivity(), R.layout.row, null, FROM, TO, 0);
         listAdapter.setViewBinder(new TimelineBinder());
@@ -122,6 +145,7 @@ public class TimelineFragment extends ListFragment
     @Override
     public void onPause() {
         super.onPause();
+        timelineObserver.unregisterWithCursor();
     }
 
     /**
