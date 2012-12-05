@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.marakana.android.yamba"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="15" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <permission
+        android:name="com.marakana.android.yamba.ACCESS"
+        android:protectionLevel="signature" >
+    </permission>
+
+    <application
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Holo.Light" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+
+            <!-- This makes it the "home page" -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".FragActivity" >
+        </activity>
+
+        <service
+            android:name=".RefreshService"
+            android:exported="false"
+            android:permission="com.marakana.android.yamba.ACCESS" >
+        </service>
+
+        <provider
+            android:name=".StatusProvider"
+            android:authorities="com.marakana.android.yamba.provider"
+            android:writePermission="com.marakana.android.yamba.ACCESS" >
+        </provider>
+
+        <receiver android:name=".RefreshReceiver" >
+            <intent-filter>
+                <action android:name="com.marakana.android.yamba.REFRESH_ACTION" />
+            </intent-filter>
+        </receiver>
+        
+        <receiver android:name=".NewStatusReceiver" >
+            <intent-filter>
+                <action android:name="com.marakana.android.yamba.NEW_STATUS" />
+            </intent-filter>
+        </receiver>
+        
+    </application>
+
+</manifest>
