@@ -1,6 +1,0 @@
-Wire up the edit text key handler to maintain a color-coded count of characters remaining
-  > 10 is green
-  > 0 is yellow
-  otherwise red
-
-Stretch: Make sure that the count is correct even after ^F11

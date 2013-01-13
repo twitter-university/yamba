@@ -1,5 +1,0 @@
-Create Contract and DAO object.
-Manage DAO in the application.
-Use it from the service
-
-Stretch: use adb to verify existence and contents of db

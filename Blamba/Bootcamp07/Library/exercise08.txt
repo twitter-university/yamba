@@ -1,1 +1,0 @@
-Add Preferences, a new Activity

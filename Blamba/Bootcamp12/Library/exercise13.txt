@@ -1,3 +1,0 @@
-Use a Broadcast Intent and Receiver to update Timeline view
-
-Stretch: Use permissions to limit access to the broadcast

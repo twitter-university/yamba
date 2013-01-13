@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <style name="yambaLarge" parent="style/yambaStd">
-        <item name="android:textSize">30sp</item>
-        <item name="android:textColor">@android:color/white</item>
-    </style>
-
-</resources>

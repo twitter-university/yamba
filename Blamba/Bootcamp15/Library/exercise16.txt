@@ -1,1 +1,0 @@
-Convert the Activity to a fragment and add a DetailFragment with a static constructor

@@ -1,3 +1,0 @@
-Add a menu to the application.  Log when the item is selected.
-
-Be sure to use the boolean return values correctly.

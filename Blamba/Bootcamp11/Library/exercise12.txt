@@ -1,7 +1,0 @@
-Create the timeline view
-  ListView, Loader and Adapter
-  Add to Manifest
-  Add to Menu
-  Add query method to DAO
-
-Stretch: Refactor Menu from Status activity into separate ActionBar manager
