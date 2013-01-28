@@ -1,0 +1,13 @@
+[[Yamba]]
+= Yamba =
+
+== About Yamba ==
+
+Yamba is Yet Another Micro Blogging App. It was written to support various Marakana Android training classes, most specifically Marakana Android Bootcamp, and is an evolution of the project from Learning Android book written by Marko Gargenta.
+
+Fork it at http://GitHub.com/Marakana/Yamba
+
+In order to use this as an eclipse project, simply copy ./tools/ide/eclipse/classpath and ./tools/ide/eclipse/project to ./.classpath and ./.project, respectively.
+
+Happy hacking!
+- Marakana Android Team
