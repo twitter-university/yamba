@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
     <TextView
         android:id="@+id/text_user"
@@ -14,21 +13,22 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/text_text"
+        android:id="@+id/text_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/text_user"
-        android:text="I had an amazing omelet for breakfast today. http://en.wikipedia.org/wiki/Omelette"
+        android:text="I had this awesome omlette for breakfast this morning. It was with feta cheese and spinach. Yummy."
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/text_created_at"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/text_user"
         android:layout_alignBottom="@+id/text_user"
         android:layout_alignParentRight="true"
         android:text="10 minutes ago"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textColor="@android:color/primary_text_light" />
 
 </RelativeLayout>

@@ -7,67 +7,72 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
-import android.widget.CursorAdapter;
 import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
 
 public class TimelineFragment extends ListFragment implements
 		LoaderCallbacks<Cursor> {
+	private static final String TAG = "Yamba";
 	private static final String[] FROM = { StatusContract.Columns.USER,
-			StatusContract.Columns.TEXT, StatusContract.Columns.CREATED_AT };
-	private static final int[] TO = { R.id.text_user, R.id.text_text,
+			StatusContract.Columns.MESSAGE, StatusContract.Columns.CREATED_AT };
+	private static final int[] TO = { R.id.text_user, R.id.text_message,
 			R.id.text_created_at };
+	private static final int LOADER_ID = 47;
 	private SimpleCursorAdapter adapter;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		setEmptyText("Loading data...");
+
+		setEmptyText("Loading the data...");
 
 		adapter = new SimpleCursorAdapter(getActivity(), R.layout.row, null,
-				FROM, TO, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-		adapter.setViewBinder(new TimelineViewBinder());
+				FROM, TO, 0);
+		adapter.setViewBinder(VIEW_BINDER);
 
 		setListAdapter(adapter);
 
-		getLoaderManager().initLoader(0, null, this);
+		getLoaderManager().initLoader(LOADER_ID, null, this);
 	}
 
-	/** Handles custom binding of data to view. */
-	class TimelineViewBinder implements ViewBinder {
+	private static final ViewBinder VIEW_BINDER = new ViewBinder() {
 
 		@Override
 		public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 			if (view.getId() != R.id.text_created_at)
 				return false;
-
-			// Convert timestamp to relative time
+			
 			long timestamp = cursor.getLong(columnIndex);
-			CharSequence relativeTime = DateUtils
-					.getRelativeTimeSpanString(timestamp);
-			((TextView) view).setText(relativeTime);
-
+			CharSequence relTime = DateUtils.getRelativeTimeSpanString(timestamp);
+			((TextView)view).setText(relTime);
+			
 			return true;
 		}
-	}
+	};
 
-	// --- LoaderManager.LoaderCallbacks ---
+	// -- Loader Callbacks ---
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		Log.d(TAG, "onCreateLoader");
+		if (id != LOADER_ID)
+			return null; // Assert
 		return new CursorLoader(getActivity(), StatusContract.CONTENT_URI,
-				null, null, null, StatusContract.SORT_ORDER);
+				null, null, null, StatusContract.DEFAULT_SORT);
 	}
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+		Log.d(TAG, "onLoadFinished");
 		adapter.swapCursor(cursor);
 	}
 
 	@Override
-	public void onLoaderReset(Loader<Cursor> loader) {
+	public void onLoaderReset(Loader<Cursor> laoder) {
+		Log.d(TAG, "onLoaderReset");
 		adapter.swapCursor(null);
 	}
 

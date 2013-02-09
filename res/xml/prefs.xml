@@ -7,11 +7,8 @@
         android:title="@string/username" />
     <EditTextPreference
         android:key="password"
+        android:password="true"
         android:summary="@string/password_summary"
         android:title="@string/password" />
-    <EditTextPreference
-        android:key="server"
-        android:summary="@string/server_summary"
-        android:title="@string/app_name" />
 
 </PreferenceScreen>
