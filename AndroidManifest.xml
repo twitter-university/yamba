@@ -1,64 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.marakana.android.yamba"
+    package="com.twitter.yamba"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="15" />
+        android:minSdkVersion="11"
+        android:targetSdkVersion="16" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <permission
-        android:name="com.marakana.android.yamba.ACCESS"
+        android:name="com.twitter.yamba.permission.READ_TIMELINE"
+        android:label="Allows the app to read the timeline data"
+        android:protectionLevel="dangerous" >
+    </permission>
+    <permission
+        android:name="com.twitter.yamba.permission.WRITE_TIMELINE"
         android:protectionLevel="signature" >
     </permission>
 
     <application
+        android:name="com.twitter.yamba.YambaApp"
+        android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo.Light" >
+        android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="com.twitter.yamba.StatusActivity"
             android:label="@string/app_name" >
-
-            <!-- This makes it the "home page" -->
+        </activity>
+        <activity
+            android:name="com.twitter.yamba.MainActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FragActivity" >
+        <activity
+            android:name="com.twitter.yamba.SettingsActivity"
+            android:label="@string/action_settings" >
+        </activity>
+        <activity android:name="com.twitter.yamba.DetailsActivity" >
         </activity>
 
-        <service
-            android:name=".RefreshService"
-            android:exported="false"
-            android:permission="com.marakana.android.yamba.ACCESS" >
+        <service android:name="com.twitter.yamba.RefreshService" >
         </service>
 
         <provider
-            android:name=".StatusProvider"
-            android:authorities="com.marakana.android.yamba.provider"
-            android:writePermission="com.marakana.android.yamba.ACCESS" >
+            android:name="com.twitter.yamba.StatusProvider"
+            android:authorities="com.twitter.yamba.provider"
+            android:readPermission="com.twitter.yamba.permission.READ_TIMELINE"
+            android:writePermission="com.twitter.yamba.permission.WRITE_TIMELINE" >
         </provider>
 
-        <receiver android:name=".RefreshReceiver" >
+        <receiver android:name="com.twitter.yamba.BootReceiver" >
             <intent-filter>
-                <action android:name="com.marakana.android.yamba.REFRESH_ACTION" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        
-        <receiver android:name=".NewStatusReceiver" >
+        <receiver
+            android:name="com.twitter.yamba.NotificationReceiver"
+            android:exported="false" >
             <intent-filter>
-                <action android:name="com.marakana.android.yamba.NEW_STATUS" />
+                <action android:name="com.twitter.yamba.action.NEW_STATUS" />
             </intent-filter>
         </receiver>
-        
     </application>
 
 </manifest>

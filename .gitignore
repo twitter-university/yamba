@@ -1,44 +1,24 @@
-# Compiled source #
-###################
-*.com
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
 *.class
-*.dll
-*.exe
-*.o
-*.so
 
-# Packages #
-############
-# it's better to unpack these files and commit the raw source
-# git has its own built in compression methods
-*.7z
-*.dmg
-*.gz
-*.iso
-*.rar
-*.tar
-*.zip
+# generated files
+bin/
+gen/
 
-# Generated code #
-##################
-/gen
-*/gen/*
-/bin
-*/bin/*
+# Other peopel's code
+ApiDemos/
+YambaClientLib/
 
-# Logs and databases #
-######################
-*.log
-*.sql
-*.sqlite
+# Local configuration file (sdk path, etc)
+local.properties
 
-# OS generated files #
-######################
-.DS_Store*
-ehthumbs.db
-Icon?
-Thumbs.db
-
-# Eclipse Artifacts #
-#####################
-.metadata/*
+# Eclipse project files
+#.classpath
+#.project
