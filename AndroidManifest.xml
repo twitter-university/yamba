@@ -1,41 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.twitter.yamba"
+    package="com.marakana.android.yamba"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="11"
-        android:targetSdkVersion="16" />
-
+        android:targetSdkVersion="17" />
+    
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <permission
-        android:name="com.twitter.yamba.permission.READ_TIMELINE"
-        android:label="Allows the app to read the timeline data"
-        android:protectionLevel="dangerous" >
-    </permission>
-    <permission
-        android:name="com.twitter.yamba.permission.WRITE_TIMELINE"
-        android:protectionLevel="signature" >
-    </permission>
-
     <application
-        android:name="com.twitter.yamba.YambaApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.twitter.yamba.StatusActivity"
-            android:label="@string/app_name" >
+            android:name="com.marakana.android.yamba.StatusActivity"
+            android:label="@string/status_update" >
+            <intent-filter>
+                <action android:name="com.twitter.action.tweet" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
-        <activity
-            android:name="com.twitter.yamba.MainActivity"
-            android:label="@string/app_name" >
+        <activity android:name="com.marakana.android.yamba.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,33 +34,48 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.twitter.yamba.SettingsActivity"
+            android:name="com.marakana.android.yamba.SettingsActivity"
             android:label="@string/action_settings" >
         </activity>
-        <activity android:name="com.twitter.yamba.DetailsActivity" >
+        <activity android:name="com.marakana.android.yamba.DetailsActivity" >
         </activity>
 
-        <service android:name="com.twitter.yamba.RefreshService" >
+        <service android:name="com.marakana.android.yamba.RefreshService" >
         </service>
 
         <provider
-            android:name="com.twitter.yamba.StatusProvider"
-            android:authorities="com.twitter.yamba.provider"
-            android:readPermission="com.twitter.yamba.permission.READ_TIMELINE"
-            android:writePermission="com.twitter.yamba.permission.WRITE_TIMELINE" >
-        </provider>
+            android:name="com.marakana.android.yamba.StatusProvider"
+            android:authorities="com.marakana.android.yamba.StatusProvider"
+            android:exported="false" />
 
-        <receiver android:name="com.twitter.yamba.BootReceiver" >
+        <receiver android:name="com.marakana.android.yamba.BootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="com.marakana.android.yamba.action.UPDATED_INTERVAL" />
+            </intent-filter>
         </receiver>
         <receiver
-            android:name="com.twitter.yamba.NotificationReceiver"
+            android:name="com.marakana.android.yamba.NotificationReceiver"
             android:exported="false" >
             <intent-filter>
-                <action android:name="com.twitter.yamba.action.NEW_STATUS" />
+                <action android:name="com.marakana.android.yamba.action.NEW_STATUSES" />
             </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.marakana.android.yamba.YambaWidget"
+            android:exported="false"  >
+            <intent-filter>
+                <action android:name="com.marakana.android.yamba.action.NEW_STATUSES" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/yamba_widget" />
         </receiver>
     </application>
 

@@ -10,10 +10,9 @@
 
     <fragment
         android:id="@+id/fragment_timeline"
-        android:name="com.twitter.yamba.TimelineFragment"
+        android:name="com.marakana.android.yamba.TimelineFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

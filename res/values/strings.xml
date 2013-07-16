@@ -4,16 +4,18 @@
     <string name="app_name">Yamba</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="update">Update!</string>
-    <string name="status_hint">What\'s happening??</string>
-    <string name="status_text_counter">140</string>
+    <string name="status_button_tweet">Tweet</string>
+    <string name="status_text_hint">What\'s happening?</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="status_update">Status Update</string>
-    <string name="refresh">Refresh</string>
-    <string name="username">Username</string>
-    <string name="username_summary">What\'s your username?</string>
+    <string name="tweet">Tweet</string>
+    <string name="username">User name</string>
+    <string name="username_summary">What\'s your user name?</string>
     <string name="password">Password</string>
-    <string name="password_summary">What\'s your password?</string>
+    <string name="password_summary">How do you log in?</string>
+    <string name="refresh">Refresh</string>
     <string name="purge">Purge</string>
+    <string name="status_update">Status Update</string>
+    <string name="interval">Refresh Interval</string>
+    <string name="interval_summary">How frequently should data refresh?</string>
 
 </resources>

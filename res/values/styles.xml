@@ -17,4 +17,7 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="font_general">
+        <item name="android:textSize">30sp</item>
+    </style>
 </resources>
