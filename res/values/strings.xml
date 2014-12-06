@@ -1,18 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, StatusActivity!</string>
+
     <string name="app_name">Yamba</string>
-    <string name="update">Update!</string>
-    <string name="status_hint">Enter your status...</string>
-    <string name="default_max_length">140</string>
-    <string name="status_update">Status Update</string>
-    <string name="preferences">Preferences</string>
-    <string name="prefs">Prefs</string>
-    <string name="username">Username</string>
-    <string name="username_summary">How do you login into Yamba service?</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="status_button_tweet">Tweet</string>
+    <string name="status_text_hint">What\'s happening?</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="tweet">Tweet</string>
+    <string name="username">User name</string>
+    <string name="username_summary">What\'s your user name?</string>
     <string name="password">Password</string>
-    <string name="password_summary">And, what is your password?</string>
-    <string name="server">Server</string>
-    <string name="server_summary">What\'s the URL to your Yamba server?</string>
+    <string name="password_summary">How do you log in?</string>
     <string name="refresh">Refresh</string>
+    <string name="purge">Purge</string>
+    <string name="status_update">Status Update</string>
+    <string name="interval">Refresh Interval</string>
+    <string name="interval_summary">How frequently should data refresh?</string>
+
 </resources>

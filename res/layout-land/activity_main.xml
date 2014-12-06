@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal" >
 
     <fragment
         android:id="@+id/fragment_timeline"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight=".5"
-        class="com.marakana.android.yamba.TimelineFragment" />
-    
-    <fragment
-        android:id="@+id/fragment_status"
-        android:layout_width="match_parent"
+        android:name="com.marakana.android.yamba.TimelineFragment"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        class="com.marakana.android.yamba.StatusFragment" />
+        tools:layout="@android:layout/list_content" />
 
+    <fragment
+        android:id="@+id/fragment_details"
+        android:name="com.marakana.android.yamba.DetailsFragment"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        tools:layout="@layout/list_item" />
 
 </LinearLayout>
